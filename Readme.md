@@ -1,7 +1,7 @@
 # Проект «Большое путешествие»
 
 * Студент: [Анастасия Березкина](https://up.htmlacademy.ru/ecmascript/17/user/1566651).
-* Наставник: [Пётр Двухреченский] (https://up.htmlacademy.ru/ecmascript/17/user/1223515).
+* Наставник: [Пётр Двухреченский](https://up.htmlacademy.ru/ecmascript/17/user/1223515).
 
 ---
 
