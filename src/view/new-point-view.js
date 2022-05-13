@@ -30,7 +30,7 @@ const createOffers = (type, pointTypeOffer) => {
   }
 };
 
-const createNewEventTemplate = (point) => {
+const createNewPointTemplate = (point) => {
 
   const {type, dateFrom, dateTo, destination, basePrice, isFavorite, offers} = point;
 
@@ -93,25 +93,27 @@ const createNewEventTemplate = (point) => {
   );
 };
 
-export default class NewEventView {
+export default class NewPointView {
+  #element = null;
+  #point = null;
 
   constructor(point) {
-    this.point = point;
+    this.#point = point;
   }
 
-  getTemplate() {
-    return createNewEventTemplate(this.point);
+  get template() {
+    return createNewPointTemplate(this.#point);
   }
 
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
     }
 
-    return this.element;
+    return this.#element;
   }
 
   removeElement() {
-    this.element = null;
+    this.#element = null;
   }
 }
