@@ -2,6 +2,7 @@ import SortingView from '../view/sorting-view.js';
 import PointsListView from '../view/points-list-view.js';
 import NewPointView from '../view/new-point-view.js';
 import EditPointView from '../view/edit-point-view.js';
+import EmptyListView from '../view/empty-list-view.js';
 import {render} from '../render.js';
 
 export default class PointsPresenter {
@@ -9,19 +10,32 @@ export default class PointsPresenter {
   #pointsModel = null;
 
   #pointsListComponent = new PointsListView();
+  #emptyListComponent = new EmptyListView();
+  #sortComponent = new SortingView();
 
   #points = [];
 
-  init = (pointsContainer, pointsModel) => {
+  constructor(pointsContainer, pointsModel) {
     this.#pointsContainer = pointsContainer;
     this.#pointsModel = pointsModel;
+  }
+
+  init = () => {
     this.#points = [...this.#pointsModel.getPoints()];
+    this.#renderEventList();
+  };
 
-    render(new SortingView(), this.#pointsContainer);
-    render(this.#pointsListComponent, this.#pointsContainer);
+  #renderEventList = () => {
+    if (this.#points.length === 0) {
+      render(this.#emptyListComponent, this.#pointsContainer);
+    }
+    else {
+      render(this.#sortComponent, this.#pointsContainer);
+      render(this.#pointsListComponent, this.#pointsContainer);
 
-    for (let i = 0; i < this.#points.length; i++) {
-      this.#renderPoint(this.#points[i]);
+      for (let i = 0; i < this.#points.length; i++) {
+        this.#renderPoint(this.#points[i]);
+      }
     }
   };
 

@@ -10,8 +10,7 @@ const sitePointsElement = siteMainElement.querySelector('.trip-events');
 const filtersPresenter = new FiltersPresenter();
 filtersPresenter.init(siteControlsElement);
 
-const pointsPresenter = new PointsPresenter();
-
 const pointsModel = new PointsModel();
+const pointsPresenter = new PointsPresenter(sitePointsElement, pointsModel);
 
-pointsPresenter.init(sitePointsElement, pointsModel);
+pointsPresenter.init();
