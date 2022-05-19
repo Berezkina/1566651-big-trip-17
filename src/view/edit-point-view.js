@@ -1,5 +1,5 @@
-import {createElement} from '../render.js';
-import {convertDateTime} from '../utils.js';
+import AbstractView from '../framework/view/abstract-view.js';
+import {convertDateTime} from '../utils/point.js';
 import {offerTypes} from '../const.js';
 
 const createSectionOffers = (type, pointTypeOffer) => {
@@ -159,11 +159,11 @@ const createEditPointTemplate = (point) => {
     </li>`);
 };
 
-export default class EditPointView {
-  #element = null;
+export default class EditPointView extends AbstractView {
   #point = null;
 
   constructor(point) {
+    super();
     this.#point = point;
   }
 
@@ -171,15 +171,23 @@ export default class EditPointView {
     return createEditPointTemplate(this.#point);
   }
 
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
+  setRollupBtnHandler = (callback) => {
+    this._callback.rollupBtn = callback;
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#rollupBtnHandler);
+  };
 
-    return this.#element;
-  }
+  #rollupBtnHandler = () => {
+    this._callback.rollupBtn();
+  };
 
-  removeElement() {
-    this.#element = null;
-  }
+  setFormSubmitHandler = (callback) => {
+    this._callback.formSubmit = callback;
+    this.element.querySelector('form').addEventListener('submit', this.#formSubmitHandler);
+  };
+
+  #formSubmitHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.formSubmit();
+  };
+
 }
