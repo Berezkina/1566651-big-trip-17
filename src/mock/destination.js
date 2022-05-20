@@ -1,4 +1,4 @@
-import {getRandomInteger, getRandomArrayElement, getRandomArraySlice} from '../utils.js';
+import {getRandomInteger, getRandomArrayElement, getRandomArraySlice} from '../utils/common.js';
 import {CITY_NAMES, DESCRIPTIONS} from '../const.js';
 
 const generatePictures = () => ({
