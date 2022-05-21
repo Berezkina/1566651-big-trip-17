@@ -5,9 +5,16 @@ export default class FiltersPresenter {
   #filtersContainer = null;
   #filtersComponent = new FiltersView();
 
-  init = (filtersContainer) => {
+  constructor(filtersContainer) {
     this.#filtersContainer = filtersContainer;
+  }
 
+  init = () => {
+    this.#renderFilters();
+  };
+
+  #renderFilters = () => {
     render(this.#filtersComponent, this.#filtersContainer);
   };
+
 }

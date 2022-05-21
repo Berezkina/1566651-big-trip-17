@@ -105,13 +105,23 @@ export default class NewPointView extends AbstractView {
     return createNewPointTemplate(this.#point);
   }
 
-  setRollupBtnHandler = (callback) => {
+  setRollupBtnClickHandler = (callback) => {
     this._callback.rollupBtn = callback;
-    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#rollupBtnHandler);
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#rollupBtnClickHandler);
   };
 
-  #rollupBtnHandler = () => {
+  setFavoriteClickHandler = (callback) => {
+    this._callback.favoriteClick = callback;
+    this.element.querySelector('.event__favorite-btn').addEventListener('click', this.#favoriteClickHandler);
+  };
+
+  #rollupBtnClickHandler = () => {
     this._callback.rollupBtn();
+  };
+
+  #favoriteClickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.favoriteClick();
   };
 
 }
