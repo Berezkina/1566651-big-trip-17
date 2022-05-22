@@ -34,6 +34,17 @@ export const DESCRIPTIONS = [
   'In rutrum ac purus sit amet tempus.',
 ];
 
+export const SortType = {
+  DEFAULT: 'day',
+  TIME: 'time',
+  PRICE: 'price',
+};
+
+export const Mode = {
+  DEFAULT: 'DEFAULT',
+  EDITING: 'EDITING',
+};
+
 export const offerTypes = {
   'taxi': [
     {
@@ -187,3 +198,31 @@ export const offerTypes = {
     },
   ],
 };
+
+export const sortList = [
+  {
+    name: 'day',
+    label: 'Day',
+    isDisabled: false,
+  },
+  {
+    name: 'event',
+    label: 'Event',
+    isDisabled: true,
+  },
+  {
+    name: 'time',
+    label: 'Time',
+    isDisabled: false,
+  },
+  {
+    name: 'price',
+    label: 'Price',
+    isDisabled: false,
+  },
+  {
+    name: 'offer',
+    label: 'Offers',
+    isDisabled: true,
+  },
+];
