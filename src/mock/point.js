@@ -1,6 +1,7 @@
 import {getRandomInteger, randomDate, getRandomArrayElement} from '../utils/common.js';
 import {generateDestination} from './destination.js';
 import {POINT_TYPES} from '../const.js';
+import {nanoid} from 'nanoid';
 
 export const generatePoint = () => {
 
@@ -10,6 +11,7 @@ export const generatePoint = () => {
   const endDate = randomDate(startDate, new Date(startDate.getFullYear() + 1, 0, 1));
 
   return {
+    id: nanoid(),
     type: type,
     dateFrom: startDate,
     dateTo: endDate,
