@@ -198,31 +198,3 @@ export const offerTypes = {
     },
   ],
 };
-
-export const sortList = [
-  {
-    name: 'day',
-    label: 'Day',
-    isDisabled: false,
-  },
-  {
-    name: 'event',
-    label: 'Event',
-    isDisabled: true,
-  },
-  {
-    name: 'time',
-    label: 'Time',
-    isDisabled: false,
-  },
-  {
-    name: 'price',
-    label: 'Price',
-    isDisabled: false,
-  },
-  {
-    name: 'offer',
-    label: 'Offers',
-    isDisabled: true,
-  },
-];
