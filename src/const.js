@@ -34,6 +34,17 @@ export const DESCRIPTIONS = [
   'In rutrum ac purus sit amet tempus.',
 ];
 
+export const SortType = {
+  DEFAULT: 'day',
+  TIME: 'time',
+  PRICE: 'price',
+};
+
+export const Mode = {
+  DEFAULT: 'DEFAULT',
+  EDITING: 'EDITING',
+};
+
 export const offerTypes = {
   'taxi': [
     {
