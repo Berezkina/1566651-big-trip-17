@@ -1,15 +1,38 @@
-import AbstractView from '../framework/view/abstract-view.js';
+import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 import {convertDateTime} from '../utils/point.js';
-import {offerTypes} from '../const.js';
+import {POINT_TYPES, CITY_NAMES, offerTypes} from '../const.js';
+import {generateDestination} from '../mock/destination.js';
 
-const createSectionOffers = (type, pointTypeOffer) => {
-  if (typeof offerTypes[type] !== 'undefined') {
+const BLANK_POINT = {
+  type: '',
+  dateFrom: null,
+  dateTo: null,
+  destination: {
+    description: '',
+    name: '',
+    pictures: []
+  },
+  basePrice: 0,
+  isFavorite: false,
+  offers: [],
+};
+
+const createTypeListTemplate = (typeList, currentType) => (
+  `<div class="event__type-item">
+    ${typeList.map((type) =>
+    `<input id="event-type-${type}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${type}" ${type === currentType ? 'checked' : ''}>
+     <label class="event__type-label  event__type-label--${type}" for="event-type-${type}-1">${type.charAt(0).toUpperCase() + type.slice(1)}</label>`).join('')}
+  </div>`
+);
+
+const createOffersTemplate = (offers, currentType) => {
+  if (typeof offerTypes[currentType] !== 'undefined') {
     return (
       `<section class="event__section  event__section--offers">
         <h3 class="event__section-title  event__section-title--offers">Offers</h3>
         <div class="event__available-offers">
-        ${offerTypes[type].map(({id, title, price}) => {
-        const checked = pointTypeOffer.includes(id) ? 'checked' : '';
+        ${offerTypes[currentType].map(({id, title, price}) => {
+        const checked = offers.includes(id) ? 'checked' : '';
         return (
           `<div class="event__offer-selector">
             <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-1" type="checkbox" name="event-offer-luggage" ${checked}>
@@ -28,7 +51,7 @@ const createSectionOffers = (type, pointTypeOffer) => {
   }
 };
 
-const createSectionDestination = (destination) => (
+const createDescriptionTemplate = (destination) => (
   `<section class="event__section  event__section--destination">
     <h3 class="event__section-title  event__section-title--destination">Destination</h3>
     <p class="event__destination-description">${destination.description}</p>
@@ -40,9 +63,18 @@ const createSectionDestination = (destination) => (
   </section>`
 );
 
+const createDestinationListTemplate = (destinationList) => (
+  `${destinationList.map((destination) => `<option value="${destination}"></option>`).join('')}`
+);
+
 const createEditPointTemplate = (point) => {
 
   const {type, dateFrom, dateTo, destination, basePrice, offers} = point;
+
+  const offersTemplate = createOffersTemplate(offers, type);
+  const typeListTemplate = createTypeListTemplate(POINT_TYPES, type);
+  const descriptionTemplate = createDescriptionTemplate(destination);
+  const destinationListTemplate = createDestinationListTemplate(CITY_NAMES);
 
   const startTime = dateFrom !== null
     ? convertDateTime(dateFrom)
@@ -66,51 +98,7 @@ const createEditPointTemplate = (point) => {
             <div class="event__type-list">
               <fieldset class="event__type-group">
                 <legend class="visually-hidden">Event type</legend>
-
-                <div class="event__type-item">
-                  <input id="event-type-taxi-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="taxi">
-                  <label class="event__type-label  event__type-label--taxi" for="event-type-taxi-1">Taxi</label>
-                </div>
-
-                <div class="event__type-item">
-                  <input id="event-type-bus-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="bus">
-                  <label class="event__type-label  event__type-label--bus" for="event-type-bus-1">Bus</label>
-                </div>
-
-                <div class="event__type-item">
-                  <input id="event-type-train-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="train">
-                  <label class="event__type-label  event__type-label--train" for="event-type-train-1">Train</label>
-                </div>
-
-                <div class="event__type-item">
-                  <input id="event-type-ship-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="ship">
-                  <label class="event__type-label  event__type-label--ship" for="event-type-ship-1">Ship</label>
-                </div>
-
-                <div class="event__type-item">
-                  <input id="event-type-drive-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="drive">
-                  <label class="event__type-label  event__type-label--drive" for="event-type-drive-1">Drive</label>
-                </div>
-
-                <div class="event__type-item">
-                  <input id="event-type-flight-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="flight" checked>
-                  <label class="event__type-label  event__type-label--flight" for="event-type-flight-1">Flight</label>
-                </div>
-
-                <div class="event__type-item">
-                  <input id="event-type-check-in-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="check-in">
-                  <label class="event__type-label  event__type-label--check-in" for="event-type-check-in-1">Check-in</label>
-                </div>
-
-                <div class="event__type-item">
-                  <input id="event-type-sightseeing-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="sightseeing">
-                  <label class="event__type-label  event__type-label--sightseeing" for="event-type-sightseeing-1">Sightseeing</label>
-                </div>
-
-                <div class="event__type-item">
-                  <input id="event-type-restaurant-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="restaurant">
-                  <label class="event__type-label  event__type-label--restaurant" for="event-type-restaurant-1">Restaurant</label>
-                </div>
+                ${typeListTemplate}
               </fieldset>
             </div>
           </div>
@@ -121,9 +109,7 @@ const createEditPointTemplate = (point) => {
             </label>
             <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destination.name}" list="destination-list-1">
             <datalist id="destination-list-1">
-              <option value="Amsterdam"></option>
-              <option value="Geneva"></option>
-              <option value="Chamonix"></option>
+              ${destinationListTemplate}
             </datalist>
           </div>
 
@@ -151,33 +137,38 @@ const createEditPointTemplate = (point) => {
         </header>
 
         <section class="event__details">
-          ${createSectionOffers(type, offers)}
-          ${createSectionDestination(destination)}
+          ${offersTemplate}
+          ${descriptionTemplate}
         </section>
 
       </form>
     </li>`);
 };
 
-export default class EditPointView extends AbstractView {
-  #point = null;
+export default class EditPointView extends AbstractStatefulView {
 
-  constructor(point) {
+  constructor(point = BLANK_POINT) {
     super();
-    this.#point = point;
+    this._state = EditPointView.parsePointToState(point);
+    this.#setInnerHandlers();
   }
 
   get template() {
-    return createEditPointTemplate(this.#point);
+    return createEditPointTemplate(this._state);
   }
+
+  #rollupBtnClickHandler = () => {
+    this._callback.rollupBtn();
+  };
 
   setRollupBtnClickHandler = (callback) => {
     this._callback.rollupBtn = callback;
     this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#rollupBtnClickHandler);
   };
 
-  #rollupBtnClickHandler = () => {
-    this._callback.rollupBtn();
+  #formSubmitHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.formSubmit(EditPointView.parseStateToPoint(this._state));
   };
 
   setFormSubmitHandler = (callback) => {
@@ -185,9 +176,41 @@ export default class EditPointView extends AbstractView {
     this.element.querySelector('form').addEventListener('submit', this.#formSubmitHandler);
   };
 
-  #formSubmitHandler = (evt) => {
+  #eventTypeChangeHandler = (evt) => {
     evt.preventDefault();
-    this._callback.formSubmit(this.#point);
+    this.updateElement({
+      type: evt.target.value,
+      offers: [],
+    });
+  };
+
+  #destinationChangeHandler = (evt) => {
+    evt.preventDefault();
+    this.updateElement({
+      destination: generateDestination(evt.target.value),
+    });
+  };
+
+  #setInnerHandlers = () => {
+    this.element.querySelector('.event__type-group').addEventListener('change', this.#eventTypeChangeHandler);
+    this.element.querySelector('.event__input--destination').addEventListener('change', this.#destinationChangeHandler);
+  };
+
+  static parsePointToState = (point) => ({...point});
+
+  static parseStateToPoint = (state) => {
+    const point = {...state};
+    return point;
+  };
+
+  reset = (point) => {
+    this.updateElement(EditPointView.parsePointToState(point),);
+  };
+
+  _restoreHandlers = () => {
+    this.#setInnerHandlers();
+    this.setFormSubmitHandler(this._callback.formSubmit);
+    this.setRollupBtnClickHandler(this._callback.rollupBtn);
   };
 
 }
