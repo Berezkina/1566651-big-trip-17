@@ -63,7 +63,7 @@ export const offerTypes = {
       price: 170
     },
     {
-      id: 5,
+      id: 4,
       title: 'Drive slowly',
       price: 110
     },
@@ -114,17 +114,17 @@ export const offerTypes = {
       price: 160
     },
     {
-      id: 4,
+      id: 3,
       title: 'Upgrade to business class',
       price: 150
     },
     {
-      id: 5,
+      id: 4,
       title: 'Add luggage',
       price: 100
     },
     {
-      id: 6,
+      id: 5,
       title: 'Business lounge',
       price: 40
     },
@@ -153,34 +153,34 @@ export const offerTypes = {
       price: 90
     },
     {
-      id: 4,
+      id: 3,
       title: 'Upgrade to business class',
       price: 120
     },
     {
-      id: 5,
+      id: 4,
       title: 'Add luggage',
       price: 170
     },
     {
-      id: 6,
+      id: 5,
       title: 'Business lounge',
       price: 160
     },
   ],
   'check-in': [
     {
-      id: 2,
+      id: 1,
       title: 'Choose the time of check-out',
       price: 190
     },
     {
-      id: 3,
+      id: 2,
       title: 'Add breakfast',
       price: 110
     },
     {
-      id: 4,
+      id: 3,
       title: 'Laundry',
       price: 140
     },

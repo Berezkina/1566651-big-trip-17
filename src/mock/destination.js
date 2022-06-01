@@ -6,8 +6,8 @@ const generatePictures = () => ({
   description: getRandomArrayElement(DESCRIPTIONS),
 });
 
-export const generateDestination = () => ({
+export const generateDestination = (destination) => ({
+  name: destination ? destination : getRandomArrayElement(CITY_NAMES),
   description: getRandomArraySlice(DESCRIPTIONS),
-  name: getRandomArrayElement(CITY_NAMES),
   pictures: Array.from({length: getRandomInteger(0, 10)}, generatePictures),
 });
