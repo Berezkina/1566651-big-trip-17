@@ -224,7 +224,7 @@ export default class EditPointView extends AbstractStatefulView {
         enableTime: true,
         dateFormat: 'd/m/y H:i',
         maxDate: this._state.dateTo,
-        time_24hr: true,
+        //time_24hr: true,
         onChange: this.#startTimeChangeHandler,
       },
     );
@@ -236,7 +236,7 @@ export default class EditPointView extends AbstractStatefulView {
         enableTime: true,
         dateFormat: 'd/m/y H:i',
         minDate: this._state.dateFrom,
-        time_24hr: true,
+        //time_24hr: true,
         onChange: this.#endTimeChangeHandler,
       },
     );
