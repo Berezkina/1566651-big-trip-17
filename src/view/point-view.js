@@ -1,6 +1,6 @@
 import AbstractView from '../framework/view/abstract-view.js';
 import {convertDate, convertTime, durationTime} from '../utils/point.js';
-import {offerTypes} from '../const.js';
+import {offerTypes} from '../mock/const.js';
 
 const createSelectedOffersList = (offers) => (
   `<h4 class="visually-hidden">Offers:</h4>
@@ -30,7 +30,7 @@ const createOffers = (type, pointTypeOffer) => {
   }
 };
 
-const createNewPointTemplate = (point) => {
+const createPointTemplate = (point) => {
 
   const {type, dateFrom, dateTo, destination, basePrice, isFavorite, offers} = point;
 
@@ -93,7 +93,7 @@ const createNewPointTemplate = (point) => {
   );
 };
 
-export default class NewPointView extends AbstractView {
+export default class PointView extends AbstractView {
   #point = null;
 
   constructor(point) {
@@ -102,12 +102,12 @@ export default class NewPointView extends AbstractView {
   }
 
   get template() {
-    return createNewPointTemplate(this.#point);
+    return createPointTemplate(this.#point);
   }
 
-  setRollupBtnClickHandler = (callback) => {
-    this._callback.rollupBtn = callback;
-    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#rollupBtnClickHandler);
+  #favoriteClickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.favoriteClick();
   };
 
   setFavoriteClickHandler = (callback) => {
@@ -115,13 +115,12 @@ export default class NewPointView extends AbstractView {
     this.element.querySelector('.event__favorite-btn').addEventListener('click', this.#favoriteClickHandler);
   };
 
+  setRollupBtnClickHandler = (callback) => {
+    this._callback.rollupBtn = callback;
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#rollupBtnClickHandler);
+  };
+
   #rollupBtnClickHandler = () => {
     this._callback.rollupBtn();
   };
-
-  #favoriteClickHandler = (evt) => {
-    evt.preventDefault();
-    this._callback.favoriteClick();
-  };
-
 }

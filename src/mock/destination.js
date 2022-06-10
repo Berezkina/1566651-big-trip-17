@@ -1,5 +1,5 @@
 import {getRandomInteger, getRandomArrayElement, getRandomArraySlice} from '../utils/common.js';
-import {CITY_NAMES, DESCRIPTIONS} from '../const.js';
+import {CITY_NAMES, DESCRIPTIONS} from './const.js';
 
 const generatePictures = () => ({
   src: `http://picsum.photos/248/152?r=${getRandomInteger(1,100)}`,
