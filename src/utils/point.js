@@ -19,7 +19,6 @@ export const durationTime = (dateFrom, dateTo) => {
   } else {
     return `${minutes}M`;
   }
-
 };
 
 export const sortByDay = (pointA, pointB) => dayjs(pointA.dateFrom).diff(dayjs(pointB.dateFrom));

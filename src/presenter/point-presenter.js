@@ -1,10 +1,15 @@
 import {remove, render, replace} from '../framework/render.js';
-import NewPointView from '../view/new-point-view.js';
-import EditPointView from '../view/edit-point-view.js';
-import {Mode} from '../const.js';
+import PointView from '../view/point-view.js';
+import PointEditView from '../view/point-edit-view.js';
+import {UserAction, UpdateType} from '../const.js';
+
+const Mode = {
+  DEFAULT: 'DEFAULT',
+  EDITING: 'EDITING',
+};
 
 export default class PointPresenter {
-  #pointsListContainer = null;
+  #pointContainer = null;
   #changeData = null;
   #changeMode = null;
 
@@ -14,8 +19,8 @@ export default class PointPresenter {
   #point = null;
   #mode = Mode.DEFAULT;
 
-  constructor(pointsListContainer, changeData, changeMode) {
-    this.#pointsListContainer = pointsListContainer;
+  constructor(pointContainer, changeData, changeMode) {
+    this.#pointContainer = pointContainer;
     this.#changeData = changeData;
     this.#changeMode = changeMode;
   }
@@ -26,17 +31,18 @@ export default class PointPresenter {
     const prevPointComponent = this.#pointComponent;
     const prevPointEditComponent = this.#pointEditComponent;
 
-    this.#pointComponent = new NewPointView(point);
-    this.#pointEditComponent = new EditPointView(point);
+    this.#pointComponent = new PointView(point);
+    this.#pointEditComponent = new PointEditView(point);
 
-    this.#pointComponent.setRollupBtnClickHandler(this.#handleRollupBtn);
     this.#pointComponent.setFavoriteClickHandler(this.#handleFavoriteClick);
+    this.#pointComponent.setRollupBtnClickHandler(this.#handleRollupBtn);
 
     this.#pointEditComponent.setRollupBtnClickHandler(this.#handleRollupBtn);
     this.#pointEditComponent.setFormSubmitHandler(this.#handleFormSubmit);
+    this.#pointEditComponent.setDeleteClickHandler(this.#handleDeleteClick);
 
     if (prevPointComponent === null || prevPointEditComponent === null) {
-      render(this.#pointComponent, this.#pointsListContainer);
+      render(this.#pointComponent, this.#pointContainer);
       return;
     }
 
@@ -86,7 +92,7 @@ export default class PointPresenter {
   };
 
   #handleRollupBtn = () => {
-    if (this.#pointsListContainer.contains(this.#pointComponent.element)) {
+    if (this.#pointContainer.contains(this.#pointComponent.element)) {
       this.#replacePointToForm();
     }
     else {
@@ -95,12 +101,27 @@ export default class PointPresenter {
   };
 
   #handleFormSubmit = (point) => {
-    this.#changeData(point);
+    this.#changeData(
+      UserAction.UPDATE_POINT,
+      UpdateType.MINOR,
+      point,
+    );
     this.#replaceFormToPoint();
   };
 
-  #handleFavoriteClick = () => {
-    this.#changeData({...this.#point, isFavorite: !this.#point.isFavorite});
+  #handleDeleteClick = (point) => {
+    this.#changeData(
+      UserAction.DELETE_POINT,
+      UpdateType.MINOR,
+      point,
+    );
   };
 
+  #handleFavoriteClick = () => {
+    this.#changeData(
+      UserAction.UPDATE_POINT,
+      UpdateType.MINOR,
+      {...this.#point, isFavorite: !this.#point.isFavorite},
+    );
+  };
 }
