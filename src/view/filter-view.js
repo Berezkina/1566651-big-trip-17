@@ -1,7 +1,7 @@
 import AbstractView from '../framework/view/abstract-view.js';
 
-const createFilterItemTemplate = (filter, currentFilterType) => {
-  const {type, name} = filter;
+const createFilterItemTemplate = (filterItem, currentFilterType) => {
+  const {type, name} = filterItem;
 
   return (
     `<div class="trip-filters__filter">
@@ -12,7 +12,7 @@ const createFilterItemTemplate = (filter, currentFilterType) => {
 };
 
 const createFilterTemplate = (filterItems, currentFilterType) => {
-  const filterItemsTemplate = filterItems.map((filter) => createFilterItemTemplate(filter, currentFilterType)).join('');
+  const filterItemsTemplate = filterItems.map((filterItem) => createFilterItemTemplate(filterItem, currentFilterType)).join('');
 
   return (
     `<form class="trip-filters" action="#" method="get">
