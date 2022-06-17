@@ -1,6 +1,5 @@
 import AbstractView from '../framework/view/abstract-view.js';
 import {convertDate, convertTime, durationTime} from '../utils/point.js';
-import {offerTypes} from '../mock/const.js';
 
 const createSelectedOffersList = (offers) => (
   `<h4 class="visually-hidden">Offers:</h4>
@@ -17,11 +16,12 @@ const createSelectedOffersItems = ({title,price}) => (
   </li>`
 );
 
-const createOffers = (type, pointTypeOffer) => {
-  if (typeof offerTypes[type] !== 'undefined' && pointTypeOffer.length !== 0) {
-    const offersItems = offerTypes[type].filter((offerItem) => pointTypeOffer.includes(offerItem.id));
+const createOffers = (offersList, type, offersId) => {
+  if (offersId.length !== 0) {
+    const offers = offersList.find((offer) => offer.type === type).offers;
+    const offersSelected = offers.filter((offer) => offersId.includes(offer.id));
     return (
-      createSelectedOffersList(offersItems.map((offer) => createSelectedOffersItems(offer)).join(''))
+      createSelectedOffersList(offersSelected.map((offer) => createSelectedOffersItems(offer)).join(''))
     );
   }
   else
@@ -30,7 +30,7 @@ const createOffers = (type, pointTypeOffer) => {
   }
 };
 
-const createPointTemplate = (point) => {
+const createPointTemplate = (point, offersList) => {
 
   const {type, dateFrom, dateTo, destination, basePrice, isFavorite, offers} = point;
 
@@ -75,7 +75,7 @@ const createPointTemplate = (point) => {
           €&nbsp;<span class="event__price-value">${basePrice}</span>
         </p>
 
-        ${createOffers(type, offers)}
+        ${createOffers(offersList, type, offers)}
 
         <button class="event__favorite-btn ${favoriteClassName}" type="button">
           <span class="visually-hidden">Add to favorite</span>
@@ -95,19 +95,25 @@ const createPointTemplate = (point) => {
 
 export default class PointView extends AbstractView {
   #point = null;
+  #offers = [];
 
-  constructor(point) {
+  constructor(point, offers) {
     super();
     this.#point = point;
+    this.#offers = offers;
   }
 
   get template() {
-    return createPointTemplate(this.#point);
+    return createPointTemplate(this.#point, this.#offers);
   }
 
   #favoriteClickHandler = (evt) => {
     evt.preventDefault();
     this._callback.favoriteClick();
+  };
+
+  #rollupBtnClickHandler = () => {
+    this._callback.rollupBtn();
   };
 
   setFavoriteClickHandler = (callback) => {
@@ -118,9 +124,5 @@ export default class PointView extends AbstractView {
   setRollupBtnClickHandler = (callback) => {
     this._callback.rollupBtn = callback;
     this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#rollupBtnClickHandler);
-  };
-
-  #rollupBtnClickHandler = () => {
-    this._callback.rollupBtn();
   };
 }

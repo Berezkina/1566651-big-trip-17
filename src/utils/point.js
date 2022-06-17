@@ -13,11 +13,11 @@ export const durationTime = (dateFrom, dateTo) => {
   const minutes = Math.floor(diffMills / (60 * 1000) % 60);
 
   if (days !== 0) {
-    return `${days}D ${hours}H ${minutes}M`;
+    return `${days.toString().padStart(2, '0')}D ${hours.toString().padStart(2, '0')}H ${minutes.toString().padStart(2, '0')}M`;
   } else if (hours !== 0) {
-    return `${hours}H ${minutes}M`;
+    return `${hours.toString().padStart(2, '0')}H ${minutes.toString().padStart(2, '0')}M`;
   } else {
-    return `${minutes}M`;
+    return `${minutes.toString().padStart(2, '0')}M`;
   }
 };
 
