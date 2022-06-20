@@ -62,7 +62,6 @@ const createDestinationListTemplate = (destinationsList) => (
 );
 
 const createPointEditTemplate = (point, destinationsList, offersList) => {
-
   const {type, dateFrom, dateTo, destination, basePrice, offers, isDisabled, isSaving, isDeleting} = point;
 
   const offerList = createOffersTemplate(offersList, type, offers);
