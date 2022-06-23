@@ -1,14 +1,16 @@
 import AbstractView from '../framework/view/abstract-view.js';
 import {convertDate} from '../utils/point.js';
 
+const DISPLAYED_POINTS_COUNT = 3;
+
 const createTitleString = (points) => {
   const pointsCount = points.length;
 
-  if (pointsCount <= 3) {
+  if (pointsCount <= DISPLAYED_POINTS_COUNT) {
     const destinations =  points.map((point) => point.destination.name);
     return destinations.join(' — ');
   }
-  else if (pointsCount > 3) {
+  else if (pointsCount > DISPLAYED_POINTS_COUNT) {
     return [points[0].destination.name, '...', points[pointsCount-1].destination.name].join(' — ');
   }
 };

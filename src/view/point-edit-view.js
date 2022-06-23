@@ -309,6 +309,13 @@ export default class PointEditView extends AbstractStatefulView {
     this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#rollupBtnClickHandler);
   };
 
+  _restoreHandlers = () => {
+    this.#setInnerHandlers();
+    this.setRollupBtnClickHandler(this._callback.rollupBtn);
+    this.setDeleteClickHandler(this._callback.deleteClick);
+    this.setFormSubmitHandler(this._callback.formSubmit);
+  };
+
   static parsePointToState = (point) => ({...point,
     isDisabled: false,
     isSaving: false,
@@ -323,12 +330,5 @@ export default class PointEditView extends AbstractStatefulView {
     delete point.isDeleting;
 
     return point;
-  };
-
-  _restoreHandlers = () => {
-    this.#setInnerHandlers();
-    this.setRollupBtnClickHandler(this._callback.rollupBtn);
-    this.setDeleteClickHandler(this._callback.deleteClick);
-    this.setFormSubmitHandler(this._callback.formSubmit);
   };
 }

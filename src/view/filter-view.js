@@ -22,7 +22,7 @@ const createFilterTemplate = (filterItems, currentFilterType) => {
   );
 };
 
-export default class FiltersView extends AbstractView {
+export default class FilterView extends AbstractView {
   #filters = null;
   #currentFilter = null;
 
